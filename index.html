@@ -1,0 +1,81 @@
+<!Doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>CC:Tweaked圖片轉換器</title>
+    </head>
+    <body>
+        <div id="float-part">
+            <div id="progress-container">
+                <div id="progress-bar" data-content="Progress: 0%">
+                </div>
+            </div>
+        </div>
+        <div id="upper-part">
+            <fieldset style="width:calc(50%-10px);padding: 10px;position:absolute;top:10px;left:10px;min-width: 500px;">
+                <legend>Config:</legend>
+                <div id="horizontalLine" style="font-weight: bold;">算法設定</div>
+                <div>
+                    <input type="checkbox" id="do-dithering" name="scales" checked />
+                    <label for="do-dithering">抖色 (Dithering)</label>
+                </div>
+                <div>
+                    <label for="color-algo">選擇篩顏色算法：</label>
+                    <select id="color-algo">
+                        <option value="l1">L1-norm(曼哈頓距離)</option>
+                        <option value="euclidean">L2-norm(歐氏距離)</option>
+                        <option value=hsv>偏重hue</option>
+                        <option value=deltaE>deltaE(可能較低速)</option>
+                    </select>
+                </div>
+                <div id="horizontalLine" style="font-weight: bold;">CC:Tweaked格式輸出設定</div>
+                <div>
+                    <span>輸出設定</span>
+                    <label for="CC-width">寬:</label>
+                    <input type="number" id="CC-width" min="1" max="8" value="8"/>
+                    <label for="CC-height">高:</label>
+                    <input type="number" id="CC-height" min="1" max="6" value="6"/>
+                </div>
+                <div>
+                    <span id="size-info" class="hint">螢幕可支援輸出像素寬：168 高：120</span>
+                </div>
+                <div>
+                    <span id="size-info" class="hint">寬：14+22(w-1) 高：15+21(h-1)</span>
+                </div>
+                <div>
+                    <label for="image-size-output-mode">圖片尺寸設為：</label>
+                    <select id="image-size-output-mode">
+                        <option value="truncateMin">將最長邊壓到</option>
+                        <option value="scale">原圖的</option>
+                    </select>
+                    <input type="number" style="width:60px;" id="image-size-input" min="1" value="1000"/>
+                    <span id="image-size-output-mode-follow-up">點像素</span>
+                </div>
+                <div>
+                    <span id="size-info-2" class="hint">---</span>
+                </div>
+            </fieldset>
+            <fieldset style="width:calc(50%-10px);padding: 10px;position:absolute;top:10px;left:550px;">
+                <legend>Misc:</legend>
+                <div>
+                    <button class="button-28" id="file-uploader" onclick="document.getElementById('actually-file-uploader').click()">上傳圖片</button>
+                    <input type="file" id="actually-file-uploader" style="display:none" accept="image/*" />
+                    <button class="button-28" id="run" onclick="run()">轉換圖片</button>
+                    <button class="button-28" id="download-converted" onclick="downloadConvertedImg()">下載轉換圖</button>
+                    <button class="button-28" id="run" onclick="downloadCCFormat(imageData)">下載CC可以畫的圖（文字檔）</button>
+                </div>
+                <div>
+                    <span id="image-info" style="color:#969696;margin: 10px;">INFO: none</span>
+                </div>
+            </fieldset>
+        </div>
+        <div id="horizontalLine"></div>
+        <div id="lower-part" style="float:none;">
+            <canvas id="ctx" style="background-color: rgb(239, 239, 239);margin:10px;"></canvas>
+        </div>
+    </body>
+    <div>
+</div>
+<script src="code.js"></script>
+<link rel="stylesheet" type="text/css" href="style.css">
+</html>
