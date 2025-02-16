@@ -21,7 +21,7 @@ CC:Tweaked內建的Lua method `paintutils.drawImage` 並不支援繪畫常見的
 
 將這個解貼簿中的字串符貼上[Pastebin](https://pastebin.com/)上，克隆這個pastebin:<https://pastebin.com/srrXagT6>
 
-克隆後，如果字串符的pastebin網址為https://pastebin.com/*AABBCCDD*，就請把下圖中`your_CC_converted`的值設為*AABBCCDD*，依樣畫葫蘆。最後保存這個pastebin
+克隆後，如果字串符的pastebin網址為https://pastebin.com/*AABBCCDD* ，就請把下圖中`your_CC_converted`的值設為*AABBCCDD*，依樣畫葫蘆。最後保存這個pastebin
 ![alt text](image-3.png)
 
 最後，將computer放到monitor的**前面**，而且**computer 要背向大monitor**。
