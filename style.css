@@ -1,3 +1,8 @@
+#image-info {
+    color: var(--info-color,#969696);
+    margin: 10px;
+}
+
 .hint {
     color:#969696;
     font-size:12px;

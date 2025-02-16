@@ -219,7 +219,7 @@ worker.onmessage = (e) => {
 // #region 右方按鈕 事件監聽
 function run() {
     if (!image) {
-        document.getElementById("image-info").innerText="INFO: 沒有上傳圖QQ";
+        setImgInfo("沒有上傳圖QQ");
         return;
     }
 
@@ -259,7 +259,7 @@ function run() {
 }
 function downloadConvertedImg() {
     if (!convertedUrl) {
-        document.getElementById("image-info").innerText="INFO: 沒有已轉換的圖QQ";
+        setImgInfo("沒有已轉換的圖QQ");
         return;
     }
     
@@ -269,6 +269,7 @@ function downloadConvertedImg() {
     a.click();
 
 }
+// #region helper to download cc format
 const colorMap = {
     720:'0',
     471:'1',
@@ -287,9 +288,30 @@ const colorMap = {
     355:'e',
     51:'f'
 };
-function downloadCCFormat(d) {
+function copyHandler() {
+  let shareUrlElement = document.getElementById("copyText");
+  shareUrlElement.select();
+  shareUrlElement.setSelectionRange(0, 99999);
+  let copyUrl = shareUrlElement.value;
+
+  if (navigator.clipboard) {
+    navigator.clipboard
+      .writeText(copyUrl)
+      .then((res) => {
+        setImgInfo("複製連結成功");
+      })
+      .catch((rej) => {
+        setImgInfo("無法複製連結");
+      });
+  } else {
+    // for IE
+    window.clipboardData.setData("Text", copyUrl);
+  }
+}
+// #endregion
+function copyCCFormat() {
     if (!image) {
-        document.getElementById("image-info").innerText="INFO: QQ";
+        setImgInfo("沒有已轉換的圖QQ");
         return;
     } 
     var ans = "";
@@ -313,19 +335,18 @@ function downloadCCFormat(d) {
         }
     }
 
-    console.log(w);
-    const blob = new Blob([ans], {type: 'application/json'});
-    const url = URL.createObjectURL(blob)
-
-    // 模擬檔案下載
-    const aTag = document.createElement('a')
-    aTag.href = url
-    aTag.download = "CCPaintable_"+imageName.substr(0,imageName.lastIndexOf('.'))+".json";
-    aTag.click()
-
-    // 清掉暫存
-    aTag.href = '';
-    URL.revokeObjectURL(url);
+    if (navigator.clipboard) {
+    navigator.clipboard
+    .writeText(ans).then((res) => {
+            setImgInfo("已複製");
+        }).catch((rej) => {
+            setImgInfo("無法複製 就很玄");
+        });
+    }
+    else {
+        // for IE
+        window.clipboardData.setData("Text", ans);
+    }
 }
 const imageDataToBlob = function(imageData){
     let w = image.width*scale | 0;
@@ -343,7 +364,7 @@ const imageDataToBlob = function(imageData){
 document.getElementById('actually-file-uploader').oninput = (e) => {
     console.log("File uploaded.");
     imageName = e.target.files[0].name;
-    document.getElementById("image-info").innerText="INFO: 轉換圖片：" + imageName;
+    setImgInfo("轉換圖片：" + imageName);
 
     image = document.createElement('img');
     document.body.appendChild(image);
@@ -354,8 +375,6 @@ document.getElementById('actually-file-uploader').oninput = (e) => {
 
     setTimeout(()=>{
         run();
-
-        document.getElementById("image-info").innerText = "INFO: 圖片尺寸為（"+image.width+","+image.height+"）";
     },100);
 };
 // #endregion
@@ -397,6 +416,19 @@ document.getElementById('image-size-input').oninput = function () {
     }
 
     sizeInfo.innerText = "圖片尺寸：（"+((image.width*t_scale)|0)+","+((image.height*t_scale)|0)+")";
+}
+function setImgInfo(text) {
+    var info = document.getElementById("image-info");
+    info.innerText="INFO: "+text;
+
+    for (let i=0;i<2;i++) {
+        setTimeout(()=>{
+            info.style.setProperty("--info-color","red");
+        },250*i);
+        setTimeout(()=>{
+            info.style.setProperty("--info-color","#969696");
+        },250*i+100);
+    }
 }
 // #endregion
 
